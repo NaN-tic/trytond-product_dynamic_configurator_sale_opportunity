@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<data>
+    <xpath expr="/form/notebook/page['lines']" position="after">
+        <page name="design">
+            <field name="design" mode="form,tree" colspan="4"/>
+        </page>
+    </xpath>
+</data>

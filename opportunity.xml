@@ -1,0 +1,32 @@
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="quotation_line_view_form">
+            <field name="model">configurator.quotation.line</field>
+            <field name="inherit" ref="product_dynamic_configurator.quotation_line_view_form"/>
+            <field name="name">quotation_line_form</field>
+        </record>
+        <record model="ir.ui.view" id="quotation_line_view_list">
+            <field name="model">configurator.quotation.line</field>
+            <field name="inherit" ref="product_dynamic_configurator.quotation_line_view_list"/>
+            <field name="name">quotation_line_list</field>
+        </record>
+
+        <record model="ir.ui.view" id="design_view_form">
+            <field name="model">configurator.design</field>
+            <field name="inherit" ref="product_dynamic_configurator.design_view_form"/>
+            <field name="name">design_form</field>
+        </record>
+        <record model="ir.ui.view" id="design_view_list">
+            <field name="model">configurator.design</field>
+            <field name="inherit" ref="product_dynamic_configurator.design_view_list"/>
+            <field name="name">design_list</field>
+        </record>
+
+        <record model="ir.ui.view" id="opportunity_view_form">
+            <field name="model">sale.opportunity</field>
+            <field name="inherit" ref="sale_opportunity.opportunity_view_form"/>
+            <field name="name">opportunity_form</field>
+        </record>
+
+    </data>
+</tryton>
