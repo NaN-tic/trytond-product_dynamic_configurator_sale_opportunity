@@ -1,4 +1,4 @@
-from trytond.model import ModelView, ModelSQL, fields, sequence_ordered, tree
+from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 
 STATES = [
@@ -30,7 +30,7 @@ class SaleOpportunity(metaclass=PoolMeta):
 
     design = fields.One2Many('configurator.design', 'opportunity', 'Design')
 
-    def get_quoted_lines(self, design, state = None):
+    def get_quoted_lines(self, design, state=None):
         res = []
         for d in design:
             res += [line for line in d.prices if line.state in state]
@@ -56,7 +56,6 @@ class SaleOpportunity(metaclass=PoolMeta):
         sale_line.unit = quote_line.uom
         sale_line.unit_price = quote_line.unit_price
 
-
     def create_sale(self):
         sale = super().create_sale()
         sale_lines = list(sale.lines) if sale.lines else []
@@ -80,7 +79,7 @@ class SaleOpportunity(metaclass=PoolMeta):
             rejected_lines += opportunity.get_quoted_lines(opportunity.design,
                 'quotation')
 
-        QuoteLine.write(rejected_lines, {'state':'rejected'})
+        QuoteLine.write(rejected_lines, {'state': 'rejected'})
         Design.process(designs)
 
         super().convert(opportunities)
@@ -97,7 +96,7 @@ class SaleOpportunity(metaclass=PoolMeta):
             rejected_lines += opportunity.get_quoted_lines(opportunity.design,
                 STATES)
 
-        QuoteLine.write(rejected_lines, {'state':'rejected'})
+        QuoteLine.write(rejected_lines, {'state': 'rejected'})
         Design.cancel(designs)
 
     @classmethod
@@ -112,7 +111,7 @@ class SaleOpportunity(metaclass=PoolMeta):
             rejected_lines += opportunity.get_quoted_lines(opportunity.design,
                 STATES)
 
-        QuoteLine.write(rejected_lines, {'state':'cancel'})
+        QuoteLine.write(rejected_lines, {'state': 'cancel'})
         Design.cancel(designs)
 
     @classmethod

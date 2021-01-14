@@ -1,0 +1,31 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:configurator.design,opportunity:"
+msgid "Oportunity"
+msgstr "Oportunitat"
+
+msgctxt "field:configurator.quotation.line,state:"
+msgid "State"
+msgstr "Estat"
+
+msgctxt "field:sale.opportunity,design:"
+msgid "Design"
+msgstr "Diseny"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Canceled"
+msgstr "Cancel·lat"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Confirmed"
+msgstr "Confirmat"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Quotation"
+msgstr "Pressupost"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Rejected"
+msgstr "Rebutjat"
