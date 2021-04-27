@@ -1,5 +1,6 @@
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval, If
 
 STATES = [
     ('quotation', 'Quotation'),
@@ -11,9 +12,13 @@ STATES = [
 
 class Design(metaclass=PoolMeta):
     __name__ = 'configurator.design'
-    party = fields.Many2One('party.party', 'Party')
-    opportunity = fields.Many2One('sale.opportunity', 'Oportunity')
+    opportunity = fields.Many2One('sale.opportunity', 'Opportunity',
+        domain=[If(Eval('party'), ('party', '=', Eval('party', -1)), ())],
+        depends=['party'])
 
+    @fields.depends('party', 'opportunity', '_parent_opportunity.party')
+    def on_change_opportunity(self):
+        self.party = self.opportunity and self.opportunity.party
 
 class QuotationLine(metaclass=PoolMeta):
     __name__ = "configurator.quotation.line"
@@ -29,6 +34,9 @@ class SaleOpportunity(metaclass=PoolMeta):
     __name__ = "sale.opportunity"
 
     design = fields.One2Many('configurator.design', 'opportunity', 'Design')
+
+    def get_rec_name(self, name):
+        return "%s (%s) %s" % (self.number, self.reference, self.description)
 
     def get_quoted_lines(self, design, state=None):
         res = []

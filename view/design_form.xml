@@ -3,5 +3,7 @@
     <xpath expr="/form/field[@name='currency']" position="after">
         <label name="party"/>
         <field name="party"/>
+        <label name="opportunity"/>
+        <field name="opportunity"/>
     </xpath>
 </data>
