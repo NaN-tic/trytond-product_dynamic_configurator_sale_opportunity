@@ -9,16 +9,29 @@ STATES = [
     ('cancel', 'Canceled'),
 ]
 
+READONLY_STATE = {
+    'readonly': (Eval('state') != 'draft'),
+    }
+
 
 class Design(metaclass=PoolMeta):
     __name__ = 'configurator.design'
     opportunity = fields.Many2One('sale.opportunity', 'Opportunity',
         domain=[If(Eval('party'), ('party', '=', Eval('party', -1)), ())],
-        depends=['party'])
+        states=READONLY_STATE, depends=['party', 'state'])
 
     @fields.depends('party', 'opportunity', '_parent_opportunity.party')
     def on_change_opportunity(self):
         self.party = self.opportunity and self.opportunity.party
+
+    @classmethod
+    def copy(cls, designs, default=None):
+        if default is None:
+            default = {}
+        else:
+            default = default.copy()
+        default.setdefault('opportunity', None)
+        return super(Design, cls).copy(designs, default=default)
 
 class QuotationLine(metaclass=PoolMeta):
     __name__ = "configurator.quotation.line"
@@ -61,7 +74,7 @@ class SaleOpportunity(metaclass=PoolMeta):
 
     def _set_design_sale_line_quantity(self, sale_line, quote_line):
         sale_line.quantity = quote_line.quantity
-        sale_line.unit = quote_line.uom
+        sale_line.unit = quote_line.design.quotation_uom
         sale_line.unit_price = quote_line.unit_price
 
     def create_sale(self):

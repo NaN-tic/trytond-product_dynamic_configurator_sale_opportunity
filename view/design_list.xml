@@ -2,5 +2,6 @@
 <data>
     <xpath expr="/tree/field[@name='name']" position="after">
         <field name="party"/>
+        <field name="opportunity"/>
     </xpath>
 </data>
