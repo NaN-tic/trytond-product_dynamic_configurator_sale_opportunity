@@ -1,6 +1,7 @@
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, If
+from trytond.modules.product import price_digits
 
 STATES = [
     ('quotation', 'Quotation'),
@@ -62,6 +63,8 @@ class SaleOpportunity(metaclass=PoolMeta):
         Return sale line for opportunity line
         '''
         SaleLine = Pool().get('sale.line')
+        Uom = Pool().get('product.uom')
+
         sale_line = SaleLine(
             type='line',
             product=quote_line.design.product,
@@ -69,13 +72,13 @@ class SaleOpportunity(metaclass=PoolMeta):
             description=None,
             )
         sale_line.on_change_product()
-        self._set_design_sale_line_quantity(sale_line, quote_line)
+        quantity = Uom.compute_qty(quote_line.design.quotation_uom,
+            quote_line.quantity, sale_line.unit, round=True)
+        sale_line.quantity = quantity
+        unit_price = Uom.compute_price(sale_line.product.default_uom,
+            quote_line.unit_price, sale_line.unit)
+        sale_line.unit_price = round(unit_price, price_digits[1])
         return sale_line
-
-    def _set_design_sale_line_quantity(self, sale_line, quote_line):
-        sale_line.quantity = quote_line.quantity
-        sale_line.unit = quote_line.design.quotation_uom
-        sale_line.unit_price = quote_line.unit_price
 
     def create_sale(self):
         sale = super().create_sale()
