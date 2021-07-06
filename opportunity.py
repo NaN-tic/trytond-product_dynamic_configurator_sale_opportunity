@@ -72,11 +72,13 @@ class SaleOpportunity(metaclass=PoolMeta):
             description=None,
             )
         sale_line.on_change_product()
+        sale_line.unit = quote_line.desing.quotation_uom
         quantity = Uom.compute_qty(quote_line.design.quotation_uom,
             quote_line.quantity, sale_line.unit, round=True)
         sale_line.quantity = quantity
+        unit_price = quote_line.manual_list_price or quote_line.unit_price
         unit_price = Uom.compute_price(sale_line.product.default_uom,
-            quote_line.unit_price, sale_line.unit)
+            unit_price, sale_line.unit)
         sale_line.unit_price = round(unit_price, price_digits[1])
         return sale_line
 
