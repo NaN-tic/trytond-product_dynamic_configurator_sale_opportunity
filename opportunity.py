@@ -34,6 +34,20 @@ class Design(metaclass=PoolMeta):
         default.setdefault('opportunity', None)
         return super(Design, cls).copy(designs, default=default)
 
+    @classmethod
+    def process(cls, designs):
+        super().process(designs)
+        for design in designs:
+            if not design.product:
+                continue
+            quotes = [line for line in design.prices if line.state == 'confirmed']
+            if not quotes:
+                continue
+            quote = quotes[0]
+            template = design.product.template
+            template.list_price = quote.manual_list_price
+            template.save()
+
 class QuotationLine(metaclass=PoolMeta):
     __name__ = "configurator.quotation.line"
 
