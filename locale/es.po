@@ -1,0 +1,39 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:configurator.design,opportunity:"
+msgid "Opportunity"
+msgstr "Oportunidad"
+
+msgctxt "field:configurator.quotation.line,state:"
+msgid "State"
+msgstr "Estado"
+
+msgctxt "field:sale.opportunity,design:"
+msgid "Design"
+msgstr "Diseño"
+
+msgctxt "model:ir.message,text:msg_no_quotation_confirmed"
+msgid "No Quotation has been confirmed."
+msgstr "No hay ninguna cotización confirmada."
+
+msgctxt "model:ir.message,text:msg_only_one_quotation_confirmed_allowed"
+msgid "Only one Confirmed Quotation allowed."
+msgstr "Sólo se permite una cotización en estado confirmado."
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Canceled"
+msgstr "Cancelado"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Confirmed"
+msgstr "Confirmado"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Quotation"
+msgstr "Presupuesto"
+
+msgctxt "selection:configurator.quotation.line,state:"
+msgid "Rejected"
+msgstr "Rechazada"

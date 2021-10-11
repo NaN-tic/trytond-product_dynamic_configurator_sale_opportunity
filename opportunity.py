@@ -2,6 +2,8 @@ from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, If
 from trytond.modules.product import price_digits
+from trytond.exceptions import UserError
+from trytond.i18n import gettext
 
 STATES = [
     ('quotation', 'Quotation'),
@@ -47,6 +49,18 @@ class Design(metaclass=PoolMeta):
             template = design.product.template
             template.list_price = quote.manual_list_price
             template.save()
+
+    @classmethod
+    def validate(cls, designs):
+        for design in designs:
+            design.check_quotation_confirmed()
+
+    def check_quotation_confirmed(self):
+        confirmed = [x for x in self.prices if x.state == 'confirmed']
+        if confirmed and len(confirmed) > 1:
+            raise UserError(gettext(
+                'product_dynamic_configurator_sale_opportunity.msg_only_one_quotation_confirmed_allowed'))
+
 
 class QuotationLine(metaclass=PoolMeta):
     __name__ = "configurator.quotation.line"
@@ -115,13 +129,20 @@ class SaleOpportunity(metaclass=PoolMeta):
         designs = []
         rejected_lines = []
         for opportunity in opportunities:
+            if not opportunity.design:
+                continue
             designs += opportunity.design
+            confirmed = opportunity.get_quoted_lines(opportunity.design,
+                            'confirmed')
+            if not confirmed:
+                raise UserError(gettext(
+                    'product_dynamic_configurator_sale_opportunity.msg_no_quotation_confirmed'))
+
             rejected_lines += opportunity.get_quoted_lines(opportunity.design,
                 'quotation')
 
         QuoteLine.write(rejected_lines, {'state': 'rejected'})
         Design.process(designs)
-
         super().convert(opportunities)
 
     @classmethod
