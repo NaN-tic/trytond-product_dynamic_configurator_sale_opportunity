@@ -71,6 +71,16 @@ class QuotationLine(metaclass=PoolMeta):
     def default_state():
         return 'quotation'
 
+    @classmethod
+    def copy(cls, lines, default=None):
+        if default is None:
+            default = {}
+        else:
+            default = default.copy()
+
+        default.setdefault('state', 'quotation')
+        return super().copy(lines, default=default)
+
 
 class SaleOpportunity(metaclass=PoolMeta):
     __name__ = "sale.opportunity"
