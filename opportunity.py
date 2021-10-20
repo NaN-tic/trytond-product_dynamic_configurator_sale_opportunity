@@ -125,8 +125,9 @@ class SaleOpportunity(metaclass=PoolMeta):
         sale_lines = list(sale.lines) if sale.lines else []
         confirmed_lines = self.get_quoted_lines(self.design,
             'confirmed')
+
         for line in confirmed_lines:
-            sale_lines.append(self.get_design_sale_line(sale, line))
+            sale_lines.insert(0, self.get_design_sale_line(sale, line))
 
         sale.lines = sale_lines
         return sale
