@@ -173,7 +173,7 @@ class SaleOpportunity(metaclass=PoolMeta):
 
     @classmethod
     def cancel(cls, opportunities):
-        super().lost(opportunities)
+        super().cancel(opportunities)
         Design = Pool().get('configurator.design')
         QuoteLine = Pool().get('configurator.quotation.line')
         designs = []
