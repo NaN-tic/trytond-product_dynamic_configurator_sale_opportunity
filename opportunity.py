@@ -21,7 +21,7 @@ class Design(metaclass=PoolMeta):
     __name__ = 'configurator.design'
     opportunity = fields.Many2One('sale.opportunity', 'Opportunity',
         domain=[If(Eval('party'), ('party', '=', Eval('party', -1)), ())],
-        states=READONLY_STATE, depends=['party', 'state'])
+        states=READONLY_STATE)
 
     @fields.depends('party', 'opportunity', '_parent_opportunity.party')
     def on_change_opportunity(self):
