@@ -66,8 +66,7 @@ class QuotationLine(metaclass=PoolMeta):
     __name__ = "configurator.quotation.line"
 
     state = fields.Selection(STATES, 'State', required=True,
-        states={'readonly': Eval('design_state') != 'draft'},
-        depends=['design_state'])
+        states={'readonly': Eval('design_state') != 'draft'})
 
     @staticmethod
     def default_state():
