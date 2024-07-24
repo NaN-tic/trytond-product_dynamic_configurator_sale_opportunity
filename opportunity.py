@@ -105,6 +105,9 @@ class SaleOpportunity(metaclass=PoolMeta):
         SaleLine = Pool().get('sale.line')
         Uom = Pool().get('product.uom')
 
+        if not quote_line.design.product:
+            return
+
         sale_line = SaleLine(
             type='line',
             product=quote_line.design.product,
@@ -129,7 +132,10 @@ class SaleOpportunity(metaclass=PoolMeta):
             'confirmed')
 
         for line in confirmed_lines:
-            sale_lines.insert(0, self.get_design_sale_line(sale, line))
+            sale_line = self.get_design_sale_line(sale, line)
+            if not sale_line:
+                continue
+            sale_lines.insert(0, sale_line)
 
         sale.lines = sale_lines
         return sale
