@@ -3,6 +3,7 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, If
 from trytond.modules.product import price_digits
 from trytond.exceptions import UserError
+from trytond.model.exceptions import ValidationError
 from trytond.i18n import gettext
 
 STATES = [
@@ -58,7 +59,7 @@ class Design(metaclass=PoolMeta):
     def check_quotation_confirmed(self):
         confirmed = [x for x in self.prices if x.state == 'confirmed']
         if confirmed and len(confirmed) > 1:
-            raise UserError(gettext(
+            raise ValidationError(gettext(
                 'product_dynamic_configurator_sale_opportunity.msg_only_one_quotation_confirmed_allowed'))
 
 
